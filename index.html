@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Motion Studio — prompt to animated Short</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./css/studio.css">
+</head>
+<body>
+
+<div id="desk">
+  <header>
+    <h1>Motion Studio</h1>
+    <p>Prompt in, animated Short out. Music is synthesized here, so nothing is metered and nothing can be claimed.</p>
+  </header>
+
+  <fieldset>
+    <legend>Prompt</legend>
+    <label for="prompt">What's the video about?</label>
+    <textarea id="prompt" rows="3">Why 7 out of 10 day traders lose money</textarea>
+    <div class="chips" id="chips"></div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Length</legend>
+    <label for="dur">Runtime — <span id="durOut">15</span>s</label>
+    <input type="range" id="dur" min="8" max="30" value="15" step="1">
+  </fieldset>
+
+  <fieldset>
+    <legend>Look</legend>
+    <label>Colour</label>
+    <div class="swatches" id="swatches"></div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Score</legend>
+    <div class="seg" id="segMood">
+      <button data-m="pulse" aria-pressed="true">Pulse</button>
+      <button data-m="tick" aria-pressed="false">Tick</button>
+      <button data-m="drift" aria-pressed="false">Drift</button>
+      <button data-m="lift" aria-pressed="false">Lift</button>
+    </div>
+    <p class="hint" id="moodHint"></p>
+  </fieldset>
+
+  <fieldset>
+    <legend>Build</legend>
+    <button class="act" id="go" type="button">Generate</button>
+    <div id="status"></div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Scenes</legend>
+    <p class="hint" style="margin-top:0">Edit directly and press Apply. Works with no connection at all.</p>
+    <textarea id="json" rows="10" spellcheck="false" style="margin-top:8px;font-size:11px"></textarea>
+    <button class="act ghost" id="apply" type="button" style="margin-top:8px">Apply</button>
+  </fieldset>
+
+  <fieldset>
+    <legend>Blocks available</legend>
+    <p class="hint" style="margin-top:0">
+      <code>counter</code> one number climbing &middot;
+      <code>bars</code> vertical comparison &middot;
+      <code>lines</code> compounding curves &middot;
+      <code>stack</code> what a whole splits into &middot;
+      <code>grid</code> a proportion as dots &middot;
+      <code>flow</code> steps with arrows &middot;
+      <code>versus</code> two figures head to head &middot;
+      <code>ticker</code> scrolling band &middot;
+      <code>text</code> typographic slam
+    </p>
+  </fieldset>
+</div>
+
+<div id="right">
+  <div id="stagewrap"><canvas id="cv" width="1080" height="1920"></canvas></div>
+  <div id="bar">
+    <button id="play" type="button">Play</button>
+    <button id="rec" type="button">Export MP4-ready</button>
+    <span style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)">Vol</span>
+    <input type="range" id="vol" min="0" max="100" value="34">
+    <span class="spacer"></span>
+    <span id="meter">0.0s</span>
+  </div>
+  <div id="timeline"></div>
+</div>
+
+<script type="module" src="./js/app.js"></script>
+</body>
+</html>
