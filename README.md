@@ -1,9 +1,10 @@
 # Shorts-Maker
 
-**Motion Studio** — hand-build an animated vertical Short from a scene
-editor. Nine canvas-drawn chart blocks, a synthesized Web Audio score, and
-MediaRecorder export, all dark-themed, mobile-friendly, and fully
-client-side. No account, no API key, no backend — nothing to sign up for.
+**Motion Studio** — hand-build an animated vertical Short (up to 60s) from
+a scene editor. Nine canvas-drawn chart blocks, a synthesized Web Audio
+score (or drop in your own local audio track instead), and MediaRecorder
+export, all dark-themed, mobile-friendly, and fully client-side. No
+account, no API key, no backend — nothing to sign up for.
 
 ## Structure
 

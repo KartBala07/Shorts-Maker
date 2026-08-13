@@ -21,7 +21,7 @@
   <fieldset>
     <legend>Length</legend>
     <label for="dur">Runtime — <span id="durOut">15</span>s</label>
-    <input type="range" id="dur" min="8" max="30" value="15" step="1">
+    <input type="range" id="dur" min="8" max="60" value="15" step="1">
   </fieldset>
 
   <fieldset>
@@ -39,6 +39,13 @@
       <button data-m="lift" aria-pressed="false">Lift</button>
     </div>
     <p class="hint" id="moodHint"></p>
+    <label for="track" style="margin-top:14px">Or use your own track</label>
+    <input type="file" id="track" accept="audio/*">
+    <p class="hint">
+      Loaded locally in your browser only — never uploaded anywhere. Overrides
+      the synthesized score above and gets baked into export.
+      <button class="linklike" id="clearTrack" type="button" hidden>Remove</button>
+    </p>
   </fieldset>
 
   <fieldset>
