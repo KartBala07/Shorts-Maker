@@ -20,7 +20,7 @@ legend{font-size:10px;font-weight:600;letter-spacing:.16em;text-transform:upperc
   border-bottom:1px solid var(--rule);width:100%}
 label{display:block;font-size:10px;letter-spacing:.09em;text-transform:uppercase;
   color:var(--ink-soft);margin-bottom:4px}
-textarea,select,input[type=text],input[type=password]{width:100%;background:var(--paper-2);border:1px solid var(--rule);
+textarea,select,input[type=text]{width:100%;background:var(--paper-2);border:1px solid var(--rule);
   border-radius:0;padding:9px;font-family:inherit;font-size:13px;color:var(--ink)}
 textarea{resize:vertical;line-height:1.6}
 textarea:focus,select:focus,input:focus{outline:2px solid var(--ink);outline-offset:-2px;background:var(--paper-3)}
@@ -36,9 +36,6 @@ button.act:disabled{opacity:.45;cursor:progress}
 button.ghost{background:transparent;color:var(--ink)}
 button.ghost:hover:not(:disabled){background:var(--paper-2)}
 button:focus-visible{outline:2px solid var(--flag);outline-offset:2px}
-button.linklike{background:none;border:0;padding:0;margin-left:4px;font-family:inherit;
-  font-size:10px;text-decoration:underline;color:var(--ink-soft);cursor:pointer}
-button.linklike:hover{color:var(--ink)}
 
 .seg{display:flex;border:1px solid var(--ink);margin-bottom:9px}
 .seg button{flex:1;background:transparent;border:0;border-right:1px solid var(--ink);padding:9px 3px;
@@ -56,16 +53,9 @@ button.linklike:hover{color:var(--ink)}
 
 .hint{color:var(--ink-soft);font-size:10px;line-height:1.6;margin-top:7px}
 .hint code{background:var(--paper-2);padding:1px 4px}
-.hint a{color:var(--ink-soft)}
-.hint a:hover{color:var(--ink)}
 #status{margin-top:11px;font-size:11px;line-height:1.5;min-height:16px}
 #status.err{color:var(--flag)}
 #status.ok{color:var(--ok)}
-
-.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
-.chips button{background:var(--paper-2);border:1px solid var(--rule);padding:5px 8px;
-  font-family:inherit;font-size:10px;cursor:pointer;color:var(--ink-soft)}
-.chips button:hover{background:var(--paper-3);color:var(--ink)}
 
 #right{flex:1;height:100vh;display:flex;flex-direction:column;overflow:hidden}
 #stagewrap{flex:1;display:flex;align-items:center;justify-content:center;min-height:0;
@@ -97,7 +87,7 @@ canvas{background:#0A0C10;box-shadow:0 0 0 1px var(--rule);max-height:100%;max-w
   #right{height:auto;flex:none;overflow:visible}
   #stagewrap{height:60vh;height:60dvh;flex:none}
   /* 16px prevents iOS Safari from auto-zooming the page on focus */
-  textarea,select,input[type=text],input[type=password]{font-size:16px}
+  textarea,select,input[type=text]{font-size:16px}
   #bar button,button.act,button.ghost{min-height:44px}
 }
 
