@@ -1,6 +1,6 @@
 import { W, H, FPS } from './util.js';
 import { PALS } from './palettes.js';
-import { MOODHINT, setMood, setVolume, startMusic, stopMusic } from './audio.js';
+import { MOODHINT, setMood, setVolume, startMusic, stopMusic, loadCustomTrack, clearCustomTrack } from './audio.js';
 import { timings, frame } from './renderer.js';
 import { recordShort } from './export.js';
 
@@ -115,6 +115,27 @@ $("segMood").addEventListener("click", e => {
   if (playing) startMusic();
 });
 $("moodHint").textContent = MOODHINT.pulse;
+
+/* ══════════ custom track ══════════ */
+$("track").addEventListener("change", async e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  try {
+    await loadCustomTrack(file);
+    $("clearTrack").hidden = false;
+    say('Using "' + file.name + '" — mood buttons above are ignored while it\'s loaded.', "ok");
+    if (playing) startMusic();
+  } catch (err) {
+    say("Couldn't load that file: " + err.message, "err");
+  }
+});
+$("clearTrack").addEventListener("click", () => {
+  clearCustomTrack();
+  $("track").value = "";
+  $("clearTrack").hidden = true;
+  say("Removed. Back to the synthesized score.", "ok");
+  if (playing) startMusic();
+});
 
 function applyJSON(text) {
   try {

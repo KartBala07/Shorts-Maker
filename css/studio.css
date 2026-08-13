@@ -25,6 +25,7 @@ textarea,select,input[type=text]{width:100%;background:var(--paper-2);border:1px
 textarea{resize:vertical;line-height:1.6}
 textarea:focus,select:focus,input:focus{outline:2px solid var(--ink);outline-offset:-2px;background:var(--paper-3)}
 input[type=range]{width:100%;accent-color:var(--ink)}
+input[type=file]{width:100%;color:var(--ink-soft);font-family:inherit;font-size:11px}
 .row{display:flex;gap:9px;margin-bottom:9px}
 .row>*{flex:1;min-width:0}
 
@@ -36,6 +37,9 @@ button.act:disabled{opacity:.45;cursor:progress}
 button.ghost{background:transparent;color:var(--ink)}
 button.ghost:hover:not(:disabled){background:var(--paper-2)}
 button:focus-visible{outline:2px solid var(--flag);outline-offset:2px}
+button.linklike{background:none;border:0;padding:0;margin-left:4px;font-family:inherit;
+  font-size:10px;text-decoration:underline;color:var(--ink-soft);cursor:pointer}
+button.linklike:hover{color:var(--ink)}
 
 .seg{display:flex;border:1px solid var(--ink);margin-bottom:9px}
 .seg button{flex:1;background:transparent;border:0;border-right:1px solid var(--ink);padding:9px 3px;

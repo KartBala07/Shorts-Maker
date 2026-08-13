@@ -14,6 +14,7 @@ const ROOT = { pulse: 55, tick: 58, drift: 49, lift: 62 };
 
 let ac = null, master = null, streamDest = null, schedTimer = null, noiseBuf = null;
 let bpm = 88, step = 0, nextTime = 0, mood = "pulse", vol = .34;
+let customBuffer = null, customSource = null, customName = "";
 
 function ensureAudio() {
   if (ac) return ac;
@@ -106,8 +107,18 @@ export function startMusic() {
   ensureAudio();
   if (ac.state === "suspended") ac.resume();
   master.gain.setTargetAtTime(vol, ac.currentTime, .05);
-  step = 0; nextTime = ac.currentTime + .08;
   clearTimeout(schedTimer);
+  if (customSource) { try { customSource.stop(); } catch { /* already stopped */ } customSource = null; }
+
+  if (customBuffer) {
+    customSource = ac.createBufferSource();
+    customSource.buffer = customBuffer;
+    customSource.connect(master);
+    customSource.start(ac.currentTime);
+    return;
+  }
+
+  step = 0; nextTime = ac.currentTime + .08;
   bpm = TEMPO[mood];
   (function sched() {
     while (nextTime < ac.currentTime + .12) {
@@ -120,8 +131,25 @@ export function startMusic() {
 
 export function stopMusic() {
   clearTimeout(schedTimer);
+  if (customSource) { try { customSource.stop(); } catch { /* already stopped */ } customSource = null; }
   if (master && ac) master.gain.setTargetAtTime(0, ac.currentTime, .12);
 }
+
+// Bring-your-own-track: decoded once client-side from a file the visitor
+// picks, never uploaded anywhere. Present -> overrides the synthesized
+// score in startMusic() above; absent -> falls back to it.
+export async function loadCustomTrack(file) {
+  ensureAudio();
+  const buf = await file.arrayBuffer();
+  customBuffer = await ac.decodeAudioData(buf);
+  customName = file.name;
+  return customName;
+}
+export function clearCustomTrack() {
+  if (customSource) { try { customSource.stop(); } catch { /* already stopped */ } customSource = null; }
+  customBuffer = null; customName = "";
+}
+export function getCustomTrackName() { return customName; }
 
 // Exposed for export.js, which needs the raw context/stream to route the
 // score into the recorded file alongside the speakers.
