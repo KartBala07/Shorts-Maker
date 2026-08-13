@@ -3,7 +3,6 @@ import { PALS } from './palettes.js';
 import { MOODHINT, setMood, setVolume, startMusic, stopMusic } from './audio.js';
 import { timings, frame } from './renderer.js';
 import { recordShort } from './export.js';
-import { generateScenes, getStoredKey, setStoredKey } from './generate.js';
 
 const cv = document.getElementById("cv"), ctx = cv.getContext("2d");
 const $ = id => document.getElementById(id);
@@ -117,18 +116,6 @@ $("segMood").addEventListener("click", e => {
 });
 $("moodHint").textContent = MOODHINT.pulse;
 
-/* ══════════ settings: API key ══════════ */
-$("apiKey").value = getStoredKey();
-$("apiKey").addEventListener("input", e => setStoredKey(e.target.value.trim()));
-$("clearKey").addEventListener("click", () => { setStoredKey(""); $("apiKey").value = ""; });
-
-const IDEAS = ["Where a $60k salary actually goes", "$200/month from 18 vs 28", "How a Discord pump and dump works", "What a 1% fee costs over 40 years", "The credit card minimum trap", "Enron in 15 seconds"];
-IDEAS.forEach(t => {
-  const b = document.createElement("button"); b.type = "button"; b.textContent = t;
-  b.addEventListener("click", () => $("prompt").value = t);
-  $("chips").appendChild(b);
-});
-
 $("apply").addEventListener("click", () => {
   try {
     const parsed = JSON.parse($("json").value);
@@ -137,31 +124,6 @@ $("apply").addEventListener("click", () => {
     if (spec.meta && spec.meta.palette && PALS[spec.meta.palette]) palKey = spec.meta.palette;
     drawTimeline(); play(); say("Applied.", "ok");
   } catch (e) { say("That JSON didn't parse: " + e.message, "err"); }
-});
-
-/* ══════════ generate ══════════ */
-$("go").addEventListener("click", async () => {
-  const b = $("go"); b.disabled = true; b.textContent = "Designing…"; say("Laying out the scenes…", "");
-  try {
-    const parsed = await generateScenes($("prompt").value.trim(), dur);
-    spec = parsed;
-    if (parsed.meta) {
-      if (PALS[parsed.meta.palette]) palKey = parsed.meta.palette;
-      if (MOODHINT[parsed.meta.mood]) {
-        setMood(parsed.meta.mood);
-        $("moodHint").textContent = MOODHINT[parsed.meta.mood];
-        [...$("segMood").children].forEach(c => c.setAttribute("aria-pressed", c.dataset.m === parsed.meta.mood));
-      }
-    }
-    $("json").value = JSON.stringify(spec, null, 1);
-    drawTimeline(); play(); say("Done. Play it, then export.", "ok");
-  } catch (err) {
-    if (err.message.includes("no API key set")) {
-      say("Add your Anthropic API key in Settings to use Generate. The scene editor below still works offline.", "err");
-    } else {
-      say("Couldn't reach Claude (" + err.message + "). The scene editor below still works offline.", "err");
-    }
-  } finally { b.disabled = false; b.textContent = "Generate"; }
 });
 
 /* ══════════ boot ══════════ */

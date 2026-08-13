@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#101216">
-<title>Motion Studio — prompt to animated Short</title>
+<title>Motion Studio — build animated Shorts</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -15,15 +15,8 @@
 <div id="desk">
   <header>
     <h1>Motion Studio</h1>
-    <p>Prompt in, animated Short out. Music is synthesized here, so nothing is metered and nothing can be claimed.</p>
+    <p>Hand-build an animated vertical Short from the scene editor below. Music is synthesized here, so nothing is metered and nothing can be claimed. No account, no API key, nothing to sign up for.</p>
   </header>
-
-  <fieldset>
-    <legend>Prompt</legend>
-    <label for="prompt">What's the video about?</label>
-    <textarea id="prompt" rows="3">Why 7 out of 10 day traders lose money</textarea>
-    <div class="chips" id="chips"></div>
-  </fieldset>
 
   <fieldset>
     <legend>Length</legend>
@@ -49,27 +42,11 @@
   </fieldset>
 
   <fieldset>
-    <legend>Settings</legend>
-    <label for="apiKey">Anthropic API key</label>
-    <input type="password" id="apiKey" autocomplete="off" spellcheck="false" placeholder="sk-ant-...">
-    <p class="hint">
-      Stored only in this browser, never sent anywhere but api.anthropic.com.
-      Get one at <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a>.
-      <button class="linklike" id="clearKey" type="button">Clear</button>
-    </p>
-  </fieldset>
-
-  <fieldset>
-    <legend>Build</legend>
-    <button class="act" id="go" type="button">Generate</button>
-    <div id="status"></div>
-  </fieldset>
-
-  <fieldset>
     <legend>Scenes</legend>
-    <p class="hint" style="margin-top:0">Edit directly and press Apply. Works with no connection at all.</p>
-    <textarea id="json" rows="10" spellcheck="false" style="margin-top:8px;font-size:11px"></textarea>
+    <p class="hint" style="margin-top:0">Edit directly and press Apply.</p>
+    <textarea id="json" rows="14" spellcheck="false" style="margin-top:8px;font-size:11px"></textarea>
     <button class="act ghost" id="apply" type="button" style="margin-top:8px">Apply</button>
+    <div id="status"></div>
   </fieldset>
 
   <fieldset>
