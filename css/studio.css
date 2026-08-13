@@ -1,6 +1,6 @@
 :root{
-  --paper:#E4DDCC;--paper-2:#D8D0BC;--paper-3:#EDE7D8;
-  --ink:#171512;--ink-soft:#6E675A;--rule:#B6AD98;--flag:#C4442A;--ok:#2F6B4F;
+  --paper:#101216;--paper-2:#1B1E24;--paper-3:#252A32;
+  --ink:#F2F4F7;--ink-soft:#8A93A0;--rule:#2C313B;--flag:#FF5A45;--ok:#46D18A;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
@@ -20,7 +20,7 @@ legend{font-size:10px;font-weight:600;letter-spacing:.16em;text-transform:upperc
   border-bottom:1px solid var(--rule);width:100%}
 label{display:block;font-size:10px;letter-spacing:.09em;text-transform:uppercase;
   color:var(--ink-soft);margin-bottom:4px}
-textarea,select,input[type=text]{width:100%;background:var(--paper-2);border:1px solid var(--rule);
+textarea,select,input[type=text],input[type=password]{width:100%;background:var(--paper-2);border:1px solid var(--rule);
   border-radius:0;padding:9px;font-family:inherit;font-size:13px;color:var(--ink)}
 textarea{resize:vertical;line-height:1.6}
 textarea:focus,select:focus,input:focus{outline:2px solid var(--ink);outline-offset:-2px;background:var(--paper-3)}
@@ -31,11 +31,14 @@ input[type=range]{width:100%;accent-color:var(--ink)}
 button.act{width:100%;padding:13px;border:1px solid var(--ink);background:var(--ink);color:var(--paper);
   font-family:inherit;font-size:11px;font-weight:600;letter-spacing:.12em;
   text-transform:uppercase;cursor:pointer}
-button.act:hover:not(:disabled){background:var(--flag);border-color:var(--flag)}
+button.act:hover:not(:disabled){background:var(--flag);border-color:var(--flag);color:#171010}
 button.act:disabled{opacity:.45;cursor:progress}
 button.ghost{background:transparent;color:var(--ink)}
 button.ghost:hover:not(:disabled){background:var(--paper-2)}
 button:focus-visible{outline:2px solid var(--flag);outline-offset:2px}
+button.linklike{background:none;border:0;padding:0;margin-left:4px;font-family:inherit;
+  font-size:10px;text-decoration:underline;color:var(--ink-soft);cursor:pointer}
+button.linklike:hover{color:var(--ink)}
 
 .seg{display:flex;border:1px solid var(--ink);margin-bottom:9px}
 .seg button{flex:1;background:transparent;border:0;border-right:1px solid var(--ink);padding:9px 3px;
@@ -53,6 +56,8 @@ button:focus-visible{outline:2px solid var(--flag);outline-offset:2px}
 
 .hint{color:var(--ink-soft);font-size:10px;line-height:1.6;margin-top:7px}
 .hint code{background:var(--paper-2);padding:1px 4px}
+.hint a{color:var(--ink-soft)}
+.hint a:hover{color:var(--ink)}
 #status{margin-top:11px;font-size:11px;line-height:1.5;min-height:16px}
 #status.err{color:var(--flag)}
 #status.ok{color:var(--ok)}
@@ -64,8 +69,8 @@ button:focus-visible{outline:2px solid var(--flag);outline-offset:2px}
 
 #right{flex:1;height:100vh;display:flex;flex-direction:column;overflow:hidden}
 #stagewrap{flex:1;display:flex;align-items:center;justify-content:center;min-height:0;
-  background:repeating-linear-gradient(0deg,transparent 0 31px,rgba(0,0,0,.05) 31px 32px),var(--paper-2)}
-canvas{background:#0A0C10;box-shadow:0 0 0 1px var(--rule);max-height:100%}
+  background:repeating-linear-gradient(0deg,transparent 0 31px,rgba(255,255,255,.035) 31px 32px),var(--paper-2)}
+canvas{background:#0A0C10;box-shadow:0 0 0 1px var(--rule);max-height:100%;max-width:100%}
 #bar{flex:0 0 auto;border-top:1px solid var(--rule);padding:10px 16px;
   display:flex;gap:9px;align-items:center;background:var(--paper);flex-wrap:wrap}
 #bar button{padding:9px 13px;border:1px solid var(--ink);background:transparent;
@@ -89,6 +94,19 @@ canvas{background:#0A0C10;box-shadow:0 0 0 1px var(--rule);max-height:100%}
 @media (max-width:960px){
   body{flex-direction:column;overflow:auto}
   #desk{width:100%;flex:none;height:auto;border-right:0;border-bottom:1px solid var(--rule)}
-  #right{height:auto}
-  #stagewrap{height:58vh;flex:none}
+  #right{height:auto;flex:none;overflow:visible}
+  #stagewrap{height:60vh;height:60dvh;flex:none}
+  /* 16px prevents iOS Safari from auto-zooming the page on focus */
+  textarea,select,input[type=text],input[type=password]{font-size:16px}
+  #bar button,button.act,button.ghost{min-height:44px}
+}
+
+@media (max-width:480px){
+  #desk{padding:16px 16px 28px}
+  h1{font-size:17px}
+  fieldset{margin-bottom:16px}
+  #stagewrap{height:52vh;height:52dvh}
+  #bar{padding:8px 10px;gap:6px}
+  #bar button{padding:9px 10px}
+  #vol{width:64px}
 }
