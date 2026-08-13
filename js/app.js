@@ -116,15 +116,18 @@ $("segMood").addEventListener("click", e => {
 });
 $("moodHint").textContent = MOODHINT.pulse;
 
-$("apply").addEventListener("click", () => {
+function applyJSON(text) {
   try {
-    const parsed = JSON.parse($("json").value);
+    const parsed = JSON.parse(text);
     if (!parsed.scenes || !parsed.scenes.length) throw new Error("needs a scenes array");
     spec = parsed;
     if (spec.meta && spec.meta.palette && PALS[spec.meta.palette]) palKey = spec.meta.palette;
     drawTimeline(); play(); say("Applied.", "ok");
   } catch (e) { say("That JSON didn't parse: " + e.message, "err"); }
-});
+}
+$("apply").addEventListener("click", () => applyJSON($("json").value));
+// Paste a scene spec straight in and it plays immediately — no Apply click needed.
+$("json").addEventListener("paste", () => setTimeout(() => applyJSON($("json").value), 0));
 
 /* ══════════ boot ══════════ */
 function fit() {
