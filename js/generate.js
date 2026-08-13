@@ -1,8 +1,20 @@
-// Talks to the Cloudflare Worker proxy in worker/index.js, never to
-// api.anthropic.com directly — the browser has no Anthropic key and
-// shouldn't. Replace GENERATE_ENDPOINT with your deployed Worker URL
-// (see ARCHITECTURE.md section 6/7).
-const GENERATE_ENDPOINT = "https://motion-studio-worker.YOUR-SUBDOMAIN.workers.dev";
+// Bring-your-own-key: calls api.anthropic.com directly from the browser
+// using a key the visitor pastes into Settings and that never leaves their
+// own localStorage. No backend to deploy — this works the moment the site
+// is live. (See ARCHITECTURE.md Option B. Option C, a Cloudflare Worker
+// proxy that hides a shared key server-side, lives in worker/ if you'd
+// rather not ask visitors for their own key.)
+const STORAGE_KEY = "motionStudio.anthropicKey";
+
+export function getStoredKey() {
+  try { return localStorage.getItem(STORAGE_KEY) || ""; } catch { return ""; }
+}
+export function setStoredKey(key) {
+  try {
+    if (key) localStorage.setItem(STORAGE_KEY, key);
+    else localStorage.removeItem(STORAGE_KEY);
+  } catch { /* localStorage unavailable (private mode etc.) — key just won't persist */ }
+}
 
 export function buildPrompt(topic, seconds) {
 return `Design one vertical finance Short as a sequence of animated scenes. Topic: "${topic}". Total runtime: ${seconds} seconds. There is no narration — the visuals and on-screen text carry the whole thing, so every scene must be readable in silence.
@@ -28,13 +40,28 @@ Reply with ONLY raw JSON, no fences, no preamble:
  "scenes":[{"dur":3,"title":"","sub":"","vis":{...}}]}`;
 }
 
-export async function generateScenes(topic, seconds, endpoint = GENERATE_ENDPOINT) {
-  const res = await fetch(endpoint, {
+export async function generateScenes(topic, seconds) {
+  const key = getStoredKey();
+  if (!key) throw new Error("no API key set — add one in Settings");
+
+  const res = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ messages: [{ role: "user", content: buildPrompt(topic, seconds) }] })
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": key,
+      "anthropic-version": "2023-06-01",
+      "anthropic-dangerous-direct-browser-access": "true"
+    },
+    body: JSON.stringify({
+      model: "claude-sonnet-4-6",
+      max_tokens: 1000,
+      messages: [{ role: "user", content: buildPrompt(topic, seconds) }]
+    })
   });
-  if (!res.ok) throw new Error("HTTP " + res.status);
+  if (!res.ok) {
+    if (res.status === 401) throw new Error("that key was rejected — check it in Settings");
+    throw new Error("HTTP " + res.status);
+  }
   const data = await res.json();
   const txt = (data.content || []).filter(x => x.type === "text").map(x => x.text).join("\n");
   const clean = txt.replace(/```json/gi, "").replace(/```/g, "").trim();

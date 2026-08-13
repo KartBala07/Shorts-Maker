@@ -1,6 +1,9 @@
-// Holds the Anthropic key server-side and forwards Generate requests from
-// the static site. Deploy with `wrangler deploy` (see ../ARCHITECTURE.md
-// section 6/7). Needs a KV namespace bound as RATE and two config values:
+// OPTIONAL: the site defaults to bring-your-own-key (js/generate.js calls
+// Anthropic directly with a key each visitor supplies). Deploy this instead
+// if you'd rather hold one shared key server-side so visitors don't need
+// their own — then point js/generate.js at this Worker's URL. Deploy with
+// `wrangler deploy` (see ../ARCHITECTURE.md section 6/7). Needs a KV
+// namespace bound as RATE and two config values:
 //   - env.ANTHROPIC_API_KEY  (secret: `wrangler secret put ANTHROPIC_API_KEY`)
 //   - env.ALLOWED_ORIGIN     (var in wrangler.toml, e.g. your GitHub Pages origin)
 export default {

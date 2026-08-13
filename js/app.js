@@ -3,7 +3,7 @@ import { PALS } from './palettes.js';
 import { MOODHINT, setMood, setVolume, startMusic, stopMusic } from './audio.js';
 import { timings, frame } from './renderer.js';
 import { recordShort } from './export.js';
-import { generateScenes } from './generate.js';
+import { generateScenes, getStoredKey, setStoredKey } from './generate.js';
 
 const cv = document.getElementById("cv"), ctx = cv.getContext("2d");
 const $ = id => document.getElementById(id);
@@ -117,6 +117,11 @@ $("segMood").addEventListener("click", e => {
 });
 $("moodHint").textContent = MOODHINT.pulse;
 
+/* ══════════ settings: API key ══════════ */
+$("apiKey").value = getStoredKey();
+$("apiKey").addEventListener("input", e => setStoredKey(e.target.value.trim()));
+$("clearKey").addEventListener("click", () => { setStoredKey(""); $("apiKey").value = ""; });
+
 const IDEAS = ["Where a $60k salary actually goes", "$200/month from 18 vs 28", "How a Discord pump and dump works", "What a 1% fee costs over 40 years", "The credit card minimum trap", "Enron in 15 seconds"];
 IDEAS.forEach(t => {
   const b = document.createElement("button"); b.type = "button"; b.textContent = t;
@@ -151,7 +156,11 @@ $("go").addEventListener("click", async () => {
     $("json").value = JSON.stringify(spec, null, 1);
     drawTimeline(); play(); say("Done. Play it, then export.", "ok");
   } catch (err) {
-    say("Couldn't reach Claude (" + err.message + "). The scene editor below still works offline.", "err");
+    if (err.message.includes("no API key set")) {
+      say("Add your Anthropic API key in Settings to use Generate. The scene editor below still works offline.", "err");
+    } else {
+      say("Couldn't reach Claude (" + err.message + "). The scene editor below still works offline.", "err");
+    }
   } finally { b.disabled = false; b.textContent = "Generate"; }
 });
 

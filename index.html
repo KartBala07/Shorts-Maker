@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101216">
 <title>Motion Studio — prompt to animated Short</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -45,6 +46,17 @@
       <button data-m="lift" aria-pressed="false">Lift</button>
     </div>
     <p class="hint" id="moodHint"></p>
+  </fieldset>
+
+  <fieldset>
+    <legend>Settings</legend>
+    <label for="apiKey">Anthropic API key</label>
+    <input type="password" id="apiKey" autocomplete="off" spellcheck="false" placeholder="sk-ant-...">
+    <p class="hint">
+      Stored only in this browser, never sent anywhere but api.anthropic.com.
+      Get one at <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a>.
+      <button class="linklike" id="clearKey" type="button">Clear</button>
+    </p>
   </fieldset>
 
   <fieldset>
