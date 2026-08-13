@@ -1,0 +1,17 @@
+name = "motion-studio-worker"
+main = "index.js"
+compatibility_date = "2024-01-01"
+
+[vars]
+# Lock this to your own GitHub Pages origin, otherwise other sites can spend
+# your Anthropic credits.
+ALLOWED_ORIGIN = "https://YOURNAME.github.io"
+
+# Create with: npx wrangler kv namespace create RATE
+# then replace the id below with the one it prints.
+[[kv_namespaces]]
+binding = "RATE"
+id = "REPLACE_WITH_KV_NAMESPACE_ID"
+
+# Set the Anthropic key as a secret, never in this file:
+#   npx wrangler secret put ANTHROPIC_API_KEY
